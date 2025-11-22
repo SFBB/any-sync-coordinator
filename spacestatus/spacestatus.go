@@ -72,6 +72,7 @@ const (
 	SpaceTypeTech
 	SpaceTypeRegular
 	SpaceTypeChat
+	SpaceTypeOneToOne
 )
 
 var (
@@ -273,6 +274,9 @@ func (s *spaceStatus) SpaceDelete(ctx context.Context, payload SpaceDeletion) (t
 			return coordinatorproto.ErrSpaceNotExists
 		}
 		switch spType {
+		case SpaceTypeOneToOne:
+			log.Debug("cannot delete onetoone space", zap.Error(err), zap.String("spaceId", payload.SpaceId))
+			return coordinatorproto.ErrUnexpected
 		case SpaceTypeTech:
 			log.Debug("cannot delete tech space", zap.Error(err), zap.String("spaceId", payload.SpaceId))
 			return coordinatorproto.ErrUnexpected
