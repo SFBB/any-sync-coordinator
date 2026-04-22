@@ -7,6 +7,7 @@ import (
 	"github.com/anyproto/any-sync/app"
 	"github.com/anyproto/any-sync/metric"
 	"github.com/anyproto/any-sync/net/rpc"
+	"github.com/anyproto/any-sync/net/secureservice"
 	"github.com/anyproto/any-sync/net/transport/quic"
 	"github.com/anyproto/any-sync/net/transport/yamux"
 	"github.com/anyproto/any-sync/nodeconf"
@@ -45,6 +46,7 @@ type Config struct {
 	Yamux                    yamux.Config             `yaml:"yamux"`
 	Quic                     quic.Config              `yaml:"quic"`
 	AccountLimits            accountlimit.SpaceLimits `yaml:"defaultLimits"`
+	Secure                   secureservice.Config     `yaml:"secure"`
 }
 
 func (c Config) Init(a *app.App) (err error) {
@@ -101,4 +103,8 @@ func (c Config) GetQuic() quic.Config {
 
 func (c Config) GetAccountLimit() accountlimit.SpaceLimits {
 	return c.AccountLimits
+}
+
+func (c Config) GetSecureService() secureservice.Config {
+	return c.Secure
 }
